@@ -3,7 +3,12 @@ from datetime import datetime
 import requests
 from bs4 import BeautifulSoup
 import os
-
+import numpy as np
+import matplotlib.image as mpimg 
+import matplotlib.pyplot as plt 
+from astropy.visualization import astropy_mpl_style
+from astropy.io import fits
+from astropy.utils.data import get_pkg_data_filename
 """
 Any extra lines of code (if required)
 as helper for this function.
@@ -55,7 +60,12 @@ class ScraperXRT:
       return file_paths
 	
     def view(self, filepath):
-      
+      plt.style.use(astropy_mpl_style)
+      image_file = get_pkg_data_filename(filepath)
+      image_data = fits.getdata(image_file, ext=0)
+      plt.figure()
+      plt.imshow(image_data, cmap='gray')
+      plt.colorbar()
         
 	'''
     Parameters

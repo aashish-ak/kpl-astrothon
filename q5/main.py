@@ -9,6 +9,7 @@ import matplotlib.pyplot as plt
 from astropy.visualization import astropy_mpl_style
 from astropy.io import fits
 from astropy.utils.data import get_pkg_data_filename
+
 """
 Any extra lines of code (if required)
 as helper for this function.
@@ -22,6 +23,13 @@ class ScraperXRT:
     '''
 
     def __init__(self, typeof_file, startime, endtime):
+      '''
+      Parameters
+      ----------
+      typeof_file: A `string`
+      startime: A `~datetime.datetime` instance
+      endtime: A `~datetime.datetime` instance
+      '''
       self.startime = startime
       self.endtime = endtime
       self.typeof_file = "XRT_" + typeof_file
@@ -46,9 +54,19 @@ class ScraperXRT:
       self.links = links
 
     def query(self):
+      '''
+      Returns
+      -------
+      A `list` of strings of URLs.
+      '''
       return self.links
 
     def get(self):
+      '''
+      Returns
+      -------
+      A `list` of strings for files.
+      '''
       if(not os.path.exists('./downloads')):
         os.makedirs('./downloads')
       file_paths = []
@@ -60,30 +78,27 @@ class ScraperXRT:
       return file_paths
 	
     def view(self, filepath):
+      '''
+      Parameters
+      ----------
+        filepath: A `string` representing absolute path of file in system.
+      Returns
+      -------
+        An instance of `matplotlib.image.AxesImage`, returned using `plt.imshow(data)`.
+      '''
       plt.style.use(astropy_mpl_style)
       image_file = get_pkg_data_filename(filepath)
       image_data = fits.getdata(image_file, ext=0)
       plt.figure()
-      plt.imshow(image_data, cmap='gray')
+      val = plt.imshow(image_data, cmap='gray')
       plt.colorbar()
-        
-	'''
-    Parameters
-	----------
-    filepath: A `string` representing absolute path of file in system.
+      # plt.show()
+      return val
 
-	Returns
-	-------
-	An instance of `matplotlib.image.AxesImage`, returned using `plt.imshow(data)`.
-	'''
-	
-
-
-if __name__ == "__main__":
-  scraper = ScraperXRT("Al_mesh", datetime(2014, 1, 16), datetime(2014, 1, 18))
-  links = scraper.query()
-  print(links)
-  filepaths = scraper.get()
-  print(filepaths)
-  view = scraper.view(filepaths[0])
-  
+# if __name__ == "__main__":
+#   scraper = ScraperXRT("Al_mesh", datetime(2014, 1, 16), datetime(2014, 1, 18))
+#   links = scraper.query()
+#   print(links)
+#   filepaths = scraper.get()
+#   print(filepaths)
+#   view = scraper.view(filepaths[1])

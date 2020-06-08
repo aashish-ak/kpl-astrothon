@@ -20,6 +20,7 @@ azend = 229.1408
 altend = 20.0013
 
 def findSaturn(obstime):
+    obstime = obstime - datetime.timedelta(0,19800)
     saturn = ephem.Saturn()
     gravity = ephem.Observer()
     gravity.lat = '31.781300'

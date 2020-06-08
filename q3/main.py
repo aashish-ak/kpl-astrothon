@@ -1,13 +1,9 @@
 """
 Gen. Relativity:
 Gravitational Time Dilation = sqrt( 1 - ( 2*G*M / R*(c**2) ) ) * (nano secs in a day)
-
 (after approximation, we are interested in finding the diff between earth and the satellite)
-
 delta(1/gamma) = GM/R(c**2) - GM/dist(c**2) (General Relativity -> Gravity)
-
 Time dilation = nanosecs in a day * delta(1/gamma) 
-
 Special Relativity (for rel. velocity) ---> Add to delta_gamma = -(v^2) / (2*c^2)
 where (v^2) / (2*(c^2)) = GM/(c*dist)^2
 """

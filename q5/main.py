@@ -1,4 +1,11 @@
 # all imports below
+import requests
+from bs4 import BeautifulSoup
+
+URL = 'http://solar.physics.montana.edu/HINODE/XRT/QL/syn_comp_fits/'
+pageResponse = requests.get(URL)
+
+bsParser = BeautifulSoup(pageResponse.content, 'html.parser')
 
 """
 Any extra lines of code (if required)

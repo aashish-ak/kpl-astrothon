@@ -1,4 +1,5 @@
 """
+q3-Time-Dilation
 Gen. Relativity:
 Gravitational Time Dilation = sqrt( 1 - ( 2*G*M / R*(c**2) ) ) * (nano secs in a day)
 
@@ -31,3 +32,4 @@ def findDelay(dist):
     nanosecs_in_a_day = 24*60*60*(10**6) # divided by 10**3 due to c^2 computation above
 	
     return (delta_gamma-sp_rel)*nanosecs_in_a_day
+

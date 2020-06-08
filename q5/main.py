@@ -16,27 +16,29 @@ class ScraperXRT:
     '''
 
     def __init__(self, typeof_file, startime, endtime):
-      # start = datetime.strptime('20180601', '%Y%m%d').date()
-      # end = datetime.strptime('20180601', '%Y%m%d').date()
-      start = startime.strftime("%Y%m%d_%H%M%S")
-      end = endtime.strftime("%Y%m%d_%H%M%S")
-      print(start, end)
-      URL = 'http://solar.physics.montana.edu/HINODE/XRT/QL/syn_comp_fits/'
-      pageResponse = requests.get(URL)
-      bsParser = BeautifulSoup(pageResponse.content, 'html.parser')
+    	self.startime = startime
+        self.endtime = endtime
+        self.typeof_file = typeof_file
+
+    def query(self):
+	URL = 'http://solar.physics.montana.edu/HINODE/XRT/QL/syn_comp_fits/'
+        pageResponse = requests.get(URL)
+        bsParser = BeautifulSoup(pageResponse.content, 'html.parser')
       
       # File number 5 - 4989 contains links that we want.
       
-      files = bsParser.find_all('a') 
-      print(files[4989])
-      
-    def query(self):
-	'''
-	Returns
-	-------
-	A `list` of strings of URLs.
-	'''
-	return NotImplementedError
+        files = bsParser.find_all('a',href = True)
+        ans = []
+        for i in files:
+            link = i['href']
+            link_type_including_time = link.split('.')[0]
+            link_name = link_type_including_time[0:len(self.typeof_file)]
+            if(link_name == self.typeof_file):
+                time = link_type_including_time.split('_')[-2] + '_' + link_type_including_time.split('_')[-1]
+                time = datetime.strptime(time,"%Y%m%d_%H%M%S")
+                if(time >= self.startime  and time <= self.endtime):
+                    ans.append(link)
+        print(ans)
 
     def get(self):
 	'''
@@ -44,8 +46,7 @@ class ScraperXRT:
 	-------
 	A `list` of strings for files.
 	'''
-	return NotImplementedError
-
+	
     def view(self, filepath):
 	'''
     Parameters
@@ -56,7 +57,7 @@ class ScraperXRT:
 	-------
 	An instance of `matplotlib.image.AxesImage`, returned using `plt.imshow(data)`.
 	'''
-	return NotImplementedError
+	
 
 
 if __name__ == "__main__":
